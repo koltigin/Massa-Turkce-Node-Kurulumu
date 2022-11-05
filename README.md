@@ -69,10 +69,10 @@ EOF
 
 ## Servisi Başlatma ve Logları Kontrol Etme
 ```shell
+sudo systemctl restart systemd-journald
 sudo systemctl daemon-reload
-sudo systemctl enable strided
-sudo systemctl restart strided
-journalctl -u strided -f -o cat
+sudo systemctl enable massa-node
+sudo systemctl restart massa-node
 ```  
 
 ## Config.toml Dosyasını Düzenleme
