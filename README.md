@@ -65,15 +65,7 @@ sudo mv $HOME/massa-node.service /etc/systemd/system
 sudo tee <<EOF >/dev/null /etc/systemd/journald.conf
 Storage=persistent
 EOF
-```
-
-## Servisi Başlatma ve Logları Kontrol Etme
-```shell
-sudo systemctl restart systemd-journald
-sudo systemctl daemon-reload
-sudo systemctl enable massa-node
-sudo systemctl restart massa-node
-```  
+``` 
 
 ## Config.toml Dosyasını Düzenleme
 Buradaki işlemleri terminalden ya da isterseniz dosyayı indirerek dosya üzerinden yapabilirsiniz. Aşağıda terminalden düzenleme anlatılmıştır.
@@ -108,15 +100,15 @@ bootstrap_list = [["159.223.108.41:31245", "P15ukCyNQyZsXx1TUeXcAiecuFNKFfKQFnQn
 	["46.101.12.241:31245", "P1f3GJjeXpjBVHUZZ4rZDBkTBYswuJgvyGkb7mCuh5UjcjK8Vro"],
 	["157.90.249.192:31245", "P1k5P4veWQ95wNKfnfU6551h8QZRq5eC1NG7U6UTVpKAPeXj7Vg"],
 	["38.242.216.60:31245", "P1HU9j2J38KLXFQDqCvGJSpAoRUa5YJoKLaREdkfUuDkhXikUAS"]]
-```shell 
+```
 
-## Servisi Başlatma
+## Servisi Başlatma ve Logları Kontrol Etme
 ```shell
 sudo systemctl restart systemd-journald
 sudo systemctl daemon-reload
 sudo systemctl enable massa-node
 sudo systemctl restart massa-node
-```  
+``` 
 
 ## Var Olan Cüzdanı İçeri Aktarma
 Daha önceki testlerde cüzdan oluşturanlar ya da halihazırda cüzdanı olanlar `wallet.dat` dosyasını ~/massa/massa-client dizini altına kopyalıyoruz.
