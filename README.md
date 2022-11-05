@@ -39,7 +39,7 @@ rustup default nightly
 
 ## Massa Kurulumu
 ```shell
-wget -O massa.tar.gz https://github.com/massalabs/massa/releases/download/TEST.14.7/massa_TEST.14.7_release_linux.tar.gz
+wget -O massa.tar.gz https://github.com/massalabs/massa/releases/download/TEST.16.0/massa_TEST.16.0_release_linux.tar.gz
 tar -xzf massa.tar.gz
 rm massa.tar.gz
 ```
