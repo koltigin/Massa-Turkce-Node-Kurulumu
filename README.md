@@ -21,9 +21,13 @@ Kurulum sırasında 1 yazıp default kurulumu yapıyoruz.
 
 ```shell
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-source $HOME/.cargo/env
 ```
 ![Massa-1](https://user-images.githubusercontent.com/102043225/191853793-fbd73b8f-62c5-4405-b332-956fb069025b.JPG)
+
+Değişkenleri yüklüyoruz.
+```shell
+source $HOME/.cargo/env
+```
 
 Sürümü kontrol ediyoruz.
 ```shell
