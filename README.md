@@ -44,7 +44,9 @@ rustup default nightly
 
 ## Massa Kurulumu
 ```shell
-git clone --branch testnet https://github.com/massalabs/massa.git
+wget -O massa.tar.gz https://github.com/massalabs/massa/releases/download/TEST.16.0/massa_TEST.16.0_release_linux.tar.gz
+tar -xzf massa.tar.gz
+rm massa.tar.gz
 ```
 
 ## Servis Dosyası Oluşturma
