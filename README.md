@@ -103,7 +103,7 @@ wallet_generate_secret_key
 2- `#⌠💸⌡testnet-faucet` kanalına cüzdan adresimizi gönderiyoruz. (Cüzdan bilgilerinizi göremek için massa clientte `wallet_info` komutunu giriyoruz.
 3- Gelen tokenler ile rolls satın alıyoruz. (`CUZDAN_ADRESI` kısmına cüzdan adresimizi giriyoruz.)
 ```shell
-buy_rolls walletAddress 1 0
+buy_rolls CUZDAN_ADRESI 1 0
 ```
 4- Stake için aşağıdaki kodu giriyoruz. `SecretKey` bölümüne clientte `wallet_info` kodunu yazarak cüzdan bilgilerimizden secret kodumuzu kopyalayıp yazıyoruz. 
 ```shell
