@@ -1,4 +1,4 @@
-# [Massa](https://github.com/koltigin/Massa-Turkce) Türkçe Node Kurulumu (Testnet 16)
+# Massa Türkçe Node Kurulumu (Testnet 16)
 ![image](https://user-images.githubusercontent.com/102043225/191850755-6183c74f-24d3-43f3-930f-3254a28ee332.png)
 
 ##  Minimum Sistem Gereksinimleri
