@@ -13,7 +13,7 @@ sudo apt update && sudo apt upgrade -y
 
 ## Gerekli Kütüphanelerin Kurulması
 ```shell
-sudo apt install make clang curl pkg-config libssl-dev build-essential git jq ncdu bsdmainutils -y < "/dev/null"
+sudo apt install screen make clang curl pkg-config libssl-dev libclang-dev build-essential git jq ncdu bsdmainutils -y < "/dev/null"
 ```
 
 ## Rust Kurulumu
@@ -44,75 +44,58 @@ rustup default nightly
 
 ## Massa Kurulumu
 ```shell
-wget -O massa.tar.gz https://github.com/massalabs/massa/releases/download/TEST.16.0/massa_TEST.16.0_release_linux.tar.gz
-tar -xzf massa.tar.gz
-rm massa.tar.gz
+git clone --branch testnet https://github.com/massalabs/massa.git
 ```
 
-## Servis Dosyası Oluşturma
-* `CUZDAN_SIFRESI` yazan bölüme şifremizi giriyoruz.
+## rustup Güncelleme
 ```shell
-echo "[Unit]
-Description=Massa Node
-After=network.target
+rustup default nightly 
+rustup update
+```
 
-[Service]
-User=$USER
-WorkingDirectory=$HOME/massa/massa-node/
-ExecStart=$HOME/massa/massa-node/massa-node -p CUZDAN_SIFRESI
-Restart=on-failure
-RestartSec=3
-LimitNOFILE=65535
-
-[Install]
-WantedBy=multi-user.target" > $HOME/massa-node.service
-sudo mv $HOME/massa-node.service /etc/systemd/system
-sudo tee <<EOF >/dev/null /etc/systemd/journald.conf
-Storage=persistent
-EOF
-``` 
-
-## Servisi Başlatma ve Logları Kontrol Etme
+## Server IP Adresini Kaydetme
+`IP_ADRESINIZ` ip adresinizi yazınız.
 ```shell
-sudo systemctl restart systemd-journald
-sudo systemctl daemon-reload
-sudo systemctl enable massa-node
-sudo systemctl restart massa-node
-``` 
+ipadr=IP_ADRESINIZ
+echo -e "[network]\nroutable_ip = '$ipadr'" >> massa/massa-node/config/config.toml
+```
+
+## Massa Node Başlatma
+`CUZDAN_SIFRENIZ` buraya cüzda şifremizi yazıyoruz.
+```shell
+walletpassword=CUZDAN_SIFRENIZ
+screen -S massa-node -d -m bash
+screen -r massa-node -X stuff "cd massa/massa-node/ && RUST_BACKTRACE=full cargo run --release -- -p $walletpassword |& tee logs.txt"$(echo -ne '\015')
+```
+
+## Massa Client Başlatma
+
+```shell
+screen -S massa-client -d -m bash
+screen -r massa-client -X stuff "cd massa/massa-client/ && cargo run --release -- -p $walletpassword"$(echo -ne '\015')
+```
+
+🔴 **Dosyaların derlenmesi uzun sürebilir. Bir sonraki adıma geçmeden önce yarım saat kadarr bekleyiniz.**
+🔴 **Dosya derlenmesinin bitip bitmediğine ve node'un çalışıp çalışmadığına `screen -r massa-node` ekranına girerek bakabilirsiniz. Çıkarken mutlaka `CTRL A D` tuşlayarak çıkınız.**
+
 
 ## Var Olan Cüzdanı İçeri Aktarma
-Daha önceki testlerde cüzdan oluşturanlar ya da halihazırda cüzdanı olanlar `wallet.dat` dosyasını ~/massa/massa-client dizini altına kopyalıyoruz.
+Cüzdan işlemleri için **`screen -r massa-client`** ile ekranına giriş yapıyoruz.
+
+Daha önceki testlerde cüzdan oluşturanlar ya da halihazırda cüzdanı olanlar **`wallet.dat`** dosyasını **`~/massa/massa-client`** dizini altına kopyalıyoruz.
 ![image](https://user-images.githubusercontent.com/102043225/191854241-3475e65b-5acc-4397-bd73-c5d1410f56a6.png)
+
+Eğer **`wallet.dat`** dosyasını kaydetmediyseniz aşağıdaki kodu giriniz.
+`SECRET_KEY` yazan yere cüzdan secret key kodunu giriyoruz.
+```shell 
+wallet_add_secret_keys SECRET_KEY
+```
 
 ## Yeni Cüzdan Oluşturma
 ```shell 
-./massa-client --wallet_generate_secret_key 
-```  
-![Massa-3_1](https://user-images.githubusercontent.com/102043225/191856385-8f713e55-9e35-4b10-8a15-f2fb78f1ad09.jpg)
-
-## Massa Node'u Başlatma
-`CUZDAN_SIFRESI` bu bölüme şifrenizi gireceksiniz.
-```shell
-screen -S massa-node
-cd $HOME/massa/massa-client/
-RUST_BACKTRACE=full cargo run --release -- -p CUZDAN_SIFRESI |& tee logs.txt
-``` 
-Buradan `ctrl x d` tuşlayarak çıkıyoruz.
-
-## Massa Client Başlatma
-`CUZDAN_SIFRESI` bu bölüme şifrenizi gireceksiniz.
-```shell
-cd $HOME/massa/massa-client/
-cargo run --release
+wallet_generate_secret_key 
 ```
-Buradan da `ctrl x d` tuşlayarak çıkıyoruz.
-
-Eğer screen içerisinde clienti kapatırsanız tekrar açmak için aşağıdaki kodu kullanabilirsiniz.
-```shell
-cd $HOME/massa/massa-client/
-./massa-client --wallet $HOME/massa/massa-client/wallet.dat -p CUZDAN_SIFRESI
-```  
-Buradan da `ctrl x d` tuşlayarak çıkıyoruz.
+![Massa-3_1](https://user-images.githubusercontent.com/102043225/191856385-8f713e55-9e35-4b10-8a15-f2fb78f1ad09.jpg)
 
 ## Discord ile Yapılacak İşlemler
 
